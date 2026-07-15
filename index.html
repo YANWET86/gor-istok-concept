@@ -347,6 +347,25 @@
     linear-gradient(0deg,rgba(20,26,16,.42),transparent 42%)}
   .ph-ico{position:absolute;left:16px;bottom:14px;right:16px;z-index:1;color:rgba(255,255,255,.96);font-size:13px;font-weight:700;letter-spacing:.04em;display:flex;align-items:center;gap:8px;text-shadow:0 1px 4px rgba(0,0,0,.55)}
   .ph-ico svg{width:18px;height:18px;flex:0 0 18px;stroke:var(--gold);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 1px 3px rgba(0,0,0,.5))}
+
+  /* мини-слайдер фото в блоках «Территория» */
+  .slider{overflow:hidden}
+  .slider .slide{position:absolute;inset:0;background-size:cover;background-position:center;background-repeat:no-repeat;opacity:0;transition:opacity .5s ease;z-index:0}
+  .slider .slide.on{opacity:1;z-index:1}
+  .slider .ph-ico,.slider .sl-arr,.slider .sl-dots{z-index:3}
+  .sl-arr{position:absolute;top:50%;transform:translateY(-50%);width:42px;height:42px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;cursor:pointer;
+    background:color-mix(in srgb,var(--olive-800) 82%,transparent);
+    border:1.5px solid rgba(201,162,75,.55);color:var(--gold-soft);
+    backdrop-filter:blur(3px);transition:background .2s ease,border-color .2s ease,transform .15s ease}
+  .sl-arr:hover{background:var(--olive-800);border-color:var(--gold);color:var(--gold);transform:translateY(-50%) scale(1.06)}
+  .sl-arr svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .sl-arr.prev{left:12px}
+  .sl-arr.next{right:12px}
+  .sl-dots{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:7px}
+  .sl-dots i{width:7px;height:7px;border-radius:50%;background:rgba(237,231,214,.45);transition:.2s;cursor:pointer}
+  .sl-dots i.on{background:var(--gold);width:18px;border-radius:4px}
+  @media (max-width:560px){.sl-arr{width:36px;height:36px}.sl-arr.prev{left:8px}.sl-arr.next{right:8px}}
 </style>
 </head>
 <body>
@@ -445,7 +464,14 @@
 
     <div style="display:flex;flex-direction:column;gap:26px">
       <div class="split">
-        <div class="media ph-pool ph-tex"><span class="ph-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 15c1.6 0 1.6 1.5 3.2 1.5S6.8 15 8.4 15 10 16.5 11.6 16.5 13.2 15 14.8 15s1.6 1.5 3.2 1.5S19.6 15 21.2 15"/><path d="M2 19c1.6 0 1.6 1.5 3.2 1.5S6.8 19 8.4 19s1.6 1.5 3.2 1.5S13.2 19 14.8 19s1.6 1.5 3.2 1.5S19.6 19 21.2 19"/><path d="M8 13V6a2 2 0 0 1 4 0M14 13V7"/></svg>Тёплый бассейн под открытым небом</span></div>
+        <div class="media slider ph-tex" data-slider>
+          <div class="slide on" style="background-image:url('img/pool.jpg')" data-cap="Тёплый бассейн под открытым небом"></div>
+          <div class="slide" style="background-image:url('img/area-sauna.jpg')" data-cap="Сауна с выходом к воде"></div>
+          <button class="sl-arr prev" aria-label="Предыдущее фото"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></button>
+          <button class="sl-arr next" aria-label="Следующее фото"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+          <div class="sl-dots"><i class="on"></i><i></i></div>
+          <span class="ph-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 15c1.6 0 1.6 1.5 3.2 1.5S6.8 15 8.4 15 10 16.5 11.6 16.5 13.2 15 14.8 15s1.6 1.5 3.2 1.5S19.6 15 21.2 15"/><path d="M2 19c1.6 0 1.6 1.5 3.2 1.5S6.8 19 8.4 19s1.6 1.5 3.2 1.5S13.2 19 14.8 19s1.6 1.5 3.2 1.5S19.6 19 21.2 19"/><path d="M8 13V6a2 2 0 0 1 4 0M14 13V7"/></svg><span class="cap-txt">Тёплый бассейн под открытым небом</span></span>
+        </div>
         <div class="copy">
           <span class="eyebrow">Бассейн и сауна</span>
           <h3>Бассейн с подогревом и сауна с выходом к воде</h3>
@@ -469,11 +495,25 @@
             <span class="chip">Wi-Fi на территории</span>
           </div>
         </div>
-        <div class="media ph-cafe ph-tex"><span class="ph-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10h13v4a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5v-4Z"/><path d="M17 11h2a2.5 2.5 0 0 1 0 5h-1"/><path d="M8 3c-.5 1 .5 1.8 0 3M12 3c-.5 1 .5 1.8 0 3"/></svg>Кафе · беседки для барбекю</span></div>
+        <div class="media slider ph-tex" data-slider>
+          <div class="slide on" style="background-image:url('img/cafe.jpg')" data-cap="Кафе с европейской кухней"></div>
+          <div class="slide" style="background-image:url('img/area-besedka.jpg')" data-cap="Беседка с мангалом для барбекю"></div>
+          <button class="sl-arr prev" aria-label="Предыдущее фото"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></button>
+          <button class="sl-arr next" aria-label="Следующее фото"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+          <div class="sl-dots"><i class="on"></i><i></i></div>
+          <span class="ph-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10h13v4a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5v-4Z"/><path d="M17 11h2a2.5 2.5 0 0 1 0 5h-1"/><path d="M8 3c-.5 1 .5 1.8 0 3M12 3c-.5 1 .5 1.8 0 3"/></svg><span class="cap-txt">Кафе с европейской кухней</span></span>
+        </div>
       </div>
 
       <div class="split">
-        <div class="media ph-kids ph-tex"><span class="ph-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 13l1.5-4.2A2 2 0 0 1 8.4 7.5h7.2a2 2 0 0 1 1.9 1.3L19 13"/><path d="M4 13h16v4a1 1 0 0 1-1 1h-1.5a1 1 0 0 1-1-1v-1H7.5v1a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-4Z"/><path d="M7 16h.01M17 16h.01"/></svg>Детская площадка · парковка на 40 машин</span></div>
+        <div class="media slider ph-tex" data-slider>
+          <div class="slide on" style="background-image:url('img/kids.jpg')" data-cap="Детская площадка на территории"></div>
+          <div class="slide" style="background-image:url('img/area-parkovka.jpg')" data-cap="Охраняемая парковка на 40 машин"></div>
+          <button class="sl-arr prev" aria-label="Предыдущее фото"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></button>
+          <button class="sl-arr next" aria-label="Следующее фото"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+          <div class="sl-dots"><i class="on"></i><i></i></div>
+          <span class="ph-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 13l1.5-4.2A2 2 0 0 1 8.4 7.5h7.2a2 2 0 0 1 1.9 1.3L19 13"/><path d="M4 13h16v4a1 1 0 0 1-1 1h-1.5a1 1 0 0 1-1-1v-1H7.5v1a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-4Z"/><path d="M7 16h.01M17 16h.01"/></svg><span class="cap-txt">Детская площадка на территории</span></span>
+        </div>
         <div class="copy">
           <span class="eyebrow">С семьёй и на машине</span>
           <h3>Детская площадка и парковка на 40 мест</h3>
@@ -710,6 +750,26 @@
 </footer>
 
 <script>
+  // Мини-слайдер фото в блоках «Территория»
+  (function(){
+    document.querySelectorAll('[data-slider]').forEach(function(sl){
+      var slides=sl.querySelectorAll('.slide');
+      var dots=sl.querySelectorAll('.sl-dots i');
+      var cap=sl.querySelector('.cap-txt');
+      var i=0;
+      function go(n){
+        i=(n+slides.length)%slides.length;
+        slides.forEach(function(s,k){s.classList.toggle('on',k===i);});
+        dots.forEach(function(d,k){d.classList.toggle('on',k===i);});
+        if(cap && slides[i].dataset.cap) cap.textContent=slides[i].dataset.cap;
+      }
+      var prev=sl.querySelector('.sl-arr.prev'), next=sl.querySelector('.sl-arr.next');
+      if(prev) prev.addEventListener('click',function(){go(i-1);});
+      if(next) next.addEventListener('click',function(){go(i+1);});
+      dots.forEach(function(d,k){d.addEventListener('click',function(){go(k);});});
+    });
+  })();
+
   // Бургер-меню (мобилка)
   (function(){
     var burger=document.getElementById('burger');
