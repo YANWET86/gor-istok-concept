@@ -221,6 +221,9 @@
   @media (max-width:820px){
     .split,.split.rev{grid-template-columns:1fr}
     .split .media{min-height:240px}
+    /* на мобилке фото всегда над текстом, в т.ч. в перевёрнутых (.rev) блоках */
+    .split .media{order:-1}
+    .split .copy{order:0}
   }
 
   /* ============ КАРТОЧКИ РАЗМЕЩЕНИЯ ============ */
