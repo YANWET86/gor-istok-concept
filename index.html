@@ -1,0 +1,669 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Горный Источник · концепт новой главной</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<style>
+  *,*::before,*::after{box-sizing:border-box}
+  body{margin:0}
+  /* ============ ТОКЕНЫ ============ */
+  :root{
+    --olive-900:#232a1b;   /* самый тёмный фон */
+    --olive-800:#2c3323;   /* hero, тёмные секции */
+    --olive-700:#3a4230;   /* тёплая нейтраль-тёмная */
+    --paper:#ede7d6;       /* пергамент */
+    --paper-dim:#d8d0ba;
+    --wine:#4a2338;        /* бордовый акцентный блок */
+    --wine-soft:#5e3049;
+    --gold:#c9a24b;        /* единственный акцент */
+    --gold-soft:#d8b869;
+    --moss:#7a8b5c;        /* вторичная зелень */
+    --ink:#20261a;         /* текст на пергаменте */
+    --ink-soft:#4b543c;
+
+    --bg:var(--paper);
+    --surface:#f4efe2;
+    --text:var(--ink);
+    --text-soft:var(--ink-soft);
+    --hairline:rgba(32,38,26,.14);
+
+    --serif:"Cormorant","Georgia",serif;
+    --sans:"Manrope","Segoe UI",system-ui,sans-serif;
+
+    --maxw:1180px;
+    --r:18px;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --bg:#1b2115;
+      --surface:#232a1b;
+      --text:#ece7d6;
+      --text-soft:#b6bda2;
+      --hairline:rgba(237,231,214,.14);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#1b2115; --surface:#232a1b; --text:#ece7d6; --text-soft:#b6bda2;
+    --hairline:rgba(237,231,214,.14);
+  }
+  :root[data-theme="light"]{
+    --bg:var(--paper); --surface:#f4efe2; --text:var(--ink); --text-soft:var(--ink-soft);
+    --hairline:rgba(32,38,26,.14);
+  }
+
+  /* Cormorant — характерный высококонтрастный serif (subset, data-URI недоступен офлайн → системный serif fallback заложен в стек) */
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  body{
+    margin:0;background:var(--bg);color:var(--text);
+    font-family:var(--sans);font-size:17px;line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%;display:block}
+  a{color:inherit;text-decoration:none}
+  h1,h2,h3{font-family:var(--serif);font-weight:600;text-wrap:balance;margin:0;letter-spacing:.01em}
+  .wrap{max-width:var(--maxw);margin-inline:auto;padding-inline:24px}
+  .eyebrow{
+    font-family:var(--sans);font-size:12.5px;font-weight:700;
+    text-transform:uppercase;letter-spacing:.22em;color:var(--gold);
+  }
+  .demo-note{
+    background:var(--wine);color:var(--paper);text-align:center;
+    font-size:13px;padding:9px 16px;letter-spacing:.02em;
+  }
+  .demo-note b{color:var(--gold-soft)}
+
+  /* ============ ШАПКА ============ */
+  header.nav{
+    position:sticky;top:0;z-index:40;
+    background:color-mix(in srgb,var(--olive-800) 92%,transparent);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid rgba(237,231,214,.12);
+  }
+  .nav-in{
+    max-width:var(--maxw);margin-inline:auto;padding:14px 24px;
+    display:flex;align-items:center;gap:26px;color:var(--paper);
+  }
+  .brand{display:flex;align-items:center;gap:11px;font-family:var(--serif);font-size:22px;font-weight:600}
+  .brand .mark{width:30px;height:30px;flex:0 0 auto}
+  .nav-links{display:flex;gap:24px;margin-left:auto;font-size:14.5px;color:var(--paper-dim)}
+  .nav-links a:hover{color:var(--gold-soft)}
+  .nav-cta{display:flex;gap:10px;align-items:center}
+  .btn{
+    font-family:var(--sans);font-weight:700;font-size:14.5px;
+    border-radius:999px;padding:11px 22px;border:1px solid transparent;
+    cursor:pointer;transition:transform .15s ease,background .2s ease,color .2s ease;
+    display:inline-flex;align-items:center;gap:8px;white-space:nowrap;
+  }
+  .btn-gold{background:var(--gold);color:#241c07}
+  .btn-gold:hover{background:var(--gold-soft);transform:translateY(-1px)}
+  .btn-ghost{background:transparent;border-color:rgba(237,231,214,.4);color:var(--paper)}
+  .btn-ghost:hover{border-color:var(--gold);color:var(--gold-soft)}
+  .btn-wa{background:#25995a;color:#fff}
+  .btn-wa:hover{background:#2bab66;transform:translateY(-1px)}
+  @media (max-width:860px){.nav-links{display:none}.nav-cta .btn-ghost{display:none}}
+  @media (max-width:560px){
+    .nav-in{gap:12px}
+    .brand{font-size:18px}.brand .mark{width:24px;height:24px}
+    .nav-cta .btn-wa{display:none}          /* WhatsApp есть в брони и футере */
+    .nav-cta .btn-gold{padding:9px 16px;font-size:13.5px}
+  }
+
+  /* ============ HERO ============ */
+  .hero{position:relative;color:var(--paper);overflow:hidden;background:var(--olive-800)}
+  #mountains{position:absolute;inset:0;width:100%;height:100%;display:block}
+  .hero-grad{
+    position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(35,42,27,.55) 0%,rgba(35,42,27,.15) 40%,rgba(35,42,27,.75) 100%);
+  }
+  .hero-in{
+    position:relative;max-width:var(--maxw);margin-inline:auto;padding:76px 24px 40px;
+    min-height:min(86vh,760px);display:flex;flex-direction:column;justify-content:center;
+  }
+  .hero h1{font-size:clamp(44px,6.4vw,84px);line-height:1.0;margin:.14em 0 .2em;max-width:16ch}
+  .hero h1 .pull-line{display:block}
+  .hero h1 .it{font-style:italic;color:var(--gold-soft)}
+  .hero-sub{font-size:clamp(17px,2.4vw,21px);color:var(--paper-dim);max-width:46ch;margin-bottom:26px}
+  .hero-facts{display:flex;flex-wrap:wrap;gap:14px 30px;align-items:center;margin-bottom:34px}
+  .fact{display:flex;align-items:baseline;gap:9px}
+  .fact .n{font-family:var(--serif);font-size:34px;font-weight:600;color:var(--gold-soft);line-height:1}
+  .fact .l{font-size:14px;color:var(--paper-dim);max-width:16ch;line-height:1.25}
+  .stars{color:var(--gold);letter-spacing:2px;font-size:18px}
+
+  /* live-плашка рейтинга с пульсирующей точкой (идея: animated-badge) */
+  .live-dot{position:relative;display:inline-flex;width:9px;height:9px;margin-right:2px;vertical-align:middle}
+  .live-dot i{position:absolute;inset:0;border-radius:50%;background:#4fd07a}
+  .live-dot i::before{content:"";position:absolute;inset:0;border-radius:50%;background:#4fd07a;animation:ping 1.8s cubic-bezier(0,0,.2,1) infinite}
+  @keyframes ping{0%{transform:scale(1);opacity:.7}75%,100%{transform:scale(2.6);opacity:0}}
+
+  /* word-pull-up для H1 (идея: word-pull-up-text) */
+  .pull span{display:inline-block;opacity:0;transform:translateY(26px);animation:pull .7s cubic-bezier(.2,.7,.2,1) forwards}
+  @keyframes pull{to{opacity:1;transform:translateY(0)}}
+
+  /* reveal на скролле (идея: blur-in / fade-up) */
+  .reveal{opacity:0;transform:translateY(22px);filter:blur(6px);transition:opacity .8s ease,transform .8s ease,filter .8s ease}
+  .reveal.in{opacity:1;transform:none;filter:blur(0)}
+  @media (prefers-reduced-motion:reduce){
+    .pull span{opacity:1;transform:none;animation:none}
+    .reveal{opacity:1;transform:none;filter:none;transition:none}
+    .live-dot i::before{animation:none}
+  }
+
+  /* мини-виджет дат */
+  .booking{
+    background:rgba(244,239,226,.97);color:var(--ink);border-radius:16px;
+    padding:16px;display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:12px;
+    max-width:720px;box-shadow:0 18px 50px rgba(0,0,0,.35);align-items:end;
+  }
+  .bk-field{display:flex;flex-direction:column;gap:5px}
+  .bk-field label{font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-soft)}
+  .bk-field .val{font-family:var(--serif);font-size:19px;font-weight:600;border-bottom:1.5px solid var(--hairline);padding-bottom:5px}
+  .bk-field .val.muted{color:#9a9484}
+  .booking .btn-gold{justify-content:center;height:100%;padding-block:14px}
+  @media (max-width:720px){
+    .booking{grid-template-columns:1fr 1fr;gap:14px}
+    .booking .btn-gold{grid-column:1/-1}
+  }
+
+  /* ============ ЛЕНТА ДОВЕРИЯ ============ */
+  .trustbar{background:var(--olive-900);color:var(--paper-dim);border-bottom:1px solid rgba(237,231,214,.08)}
+  .trustbar .wrap{display:flex;flex-wrap:wrap;gap:12px 34px;justify-content:center;padding-block:16px;font-size:14px}
+  .trustbar .ti{display:flex;align-items:center;gap:9px}
+  .trustbar b{color:var(--paper)}
+  .trustbar .dot{color:var(--gold)}
+
+  /* ============ СЕКЦИИ ============ */
+  section.blk{padding-block:clamp(64px,9vw,110px)}
+  .sec-head{max-width:64ch;margin-bottom:44px}
+  .sec-head h2{font-size:clamp(32px,5vw,54px);line-height:1.02;margin:.28em 0 .3em}
+  .sec-head p{color:var(--text-soft);font-size:18px}
+
+  /* фото+текст на всю ширину */
+  .split{display:grid;grid-template-columns:1.05fr 1fr;gap:0;align-items:stretch;border-radius:var(--r);overflow:hidden;box-shadow:0 16px 44px rgba(20,26,16,.14)}
+  .split.rev{grid-template-columns:1fr 1.05fr}
+  .split .media{min-height:340px;position:relative}
+  .split .copy{padding:clamp(30px,4vw,54px);display:flex;flex-direction:column;justify-content:center;gap:16px;background:var(--surface)}
+  .split .copy h3{font-size:clamp(26px,3.4vw,40px);line-height:1.05}
+  .split .copy p{color:var(--text-soft);margin:0}
+  .feat-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+  .chip{font-size:13.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:color-mix(in srgb,var(--moss) 20%,var(--surface));color:var(--text);border:1px solid var(--hairline)}
+  @media (max-width:820px){
+    .split,.split.rev{grid-template-columns:1fr}
+    .split .media{min-height:240px}
+  }
+
+  /* ============ КАРТОЧКИ РАЗМЕЩЕНИЯ ============ */
+  .rooms{background:var(--olive-800);color:var(--paper)}
+  .rooms .sec-head h2{color:var(--paper)}
+  .rooms .sec-head p{color:var(--paper-dim)}
+  .toggle{display:inline-flex;background:rgba(237,231,214,.1);border-radius:999px;padding:5px;gap:4px;margin-bottom:34px}
+  .toggle button{font-family:var(--sans);font-weight:700;font-size:14px;color:var(--paper-dim);background:transparent;border:0;border-radius:999px;padding:9px 20px;cursor:pointer;transition:.2s}
+  .toggle button.on{background:var(--gold);color:#241c07}
+  .card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:22px}
+  .rcard{background:var(--olive-700);border:1px solid rgba(237,231,214,.1);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;transition:transform .18s ease,border-color .2s ease}
+  .rcard:hover{transform:translateY(-4px);border-color:var(--gold)}
+  .rcard .rmedia{height:186px;position:relative;overflow:hidden}
+  .rcard .rmedia .badge{position:absolute;top:12px;left:12px;background:rgba(35,42,27,.82);color:var(--paper);font-size:12px;font-weight:700;padding:5px 12px;border-radius:999px;letter-spacing:.04em}
+  .rbody{padding:20px;display:flex;flex-direction:column;gap:12px;flex:1}
+  .rbody h3{font-size:24px;color:var(--paper)}
+  .rmeta{display:flex;gap:16px;color:var(--paper-dim);font-size:13.5px;flex-wrap:wrap}
+  .rmeta span{display:flex;align-items:center;gap:6px}
+  .rprice{margin-top:auto;display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding-top:14px;border-top:1px solid rgba(237,231,214,.12)}
+  .rprice .p{font-family:var(--serif);font-size:28px;font-weight:600;color:var(--gold-soft)}
+  .rprice .p small{font-family:var(--sans);font-size:13px;color:var(--paper-dim);font-weight:600}
+  .rprice .go{font-size:14px;font-weight:700;color:var(--gold-soft)}
+  .rcard:hover .go{text-decoration:underline}
+
+  /* ============ ОТЗЫВЫ (полароиды на бордо) ============ */
+  .reviews{background:var(--wine);color:var(--paper)}
+  .reviews .sec-head{text-align:center;margin-inline:auto}
+  .reviews .sec-head h2{color:var(--paper)}
+  .reviews .eyebrow{color:var(--gold-soft)}
+  .polaroids{display:flex;gap:22px;flex-wrap:wrap;justify-content:center}
+  .pol{background:#f6f1e6;color:var(--ink);border-radius:6px;padding:14px 14px 20px;width:min(300px,88vw);box-shadow:0 14px 34px rgba(0,0,0,.3);transform:rotate(var(--rot,-2deg));transition:transform .2s ease}
+  .pol:hover{transform:rotate(0) translateY(-3px)}
+  .pol .ph{height:150px;border-radius:3px;margin-bottom:13px}
+  .pol .stars{font-size:15px;margin-bottom:7px}
+  .pol .txt{font-size:14.5px;line-height:1.5}
+  .pol .who{margin-top:11px;font-size:13px;color:var(--ink-soft);font-weight:700}
+  .rev-src{text-align:center;margin-top:40px;color:var(--paper-dim);font-size:14.5px}
+  .rev-src b{color:var(--gold-soft)}
+
+  /* ============ УСЛОВИЯ БРОНИ + CTA ============ */
+  .booknow{background:var(--olive-900);color:var(--paper)}
+  .bn-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:44px;align-items:center}
+  .bn-grid h2{color:var(--paper);font-size:clamp(30px,4.4vw,46px);line-height:1.05;margin-bottom:16px}
+  .bn-grid p{color:var(--paper-dim)}
+  .cond{background:var(--olive-700);border:1px solid rgba(237,231,214,.12);border-radius:var(--r);padding:26px}
+  .cond h3{font-size:20px;color:var(--gold-soft);margin-bottom:14px}
+  .cond ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:11px}
+  .cond li{display:flex;gap:11px;font-size:15px;color:var(--paper);line-height:1.45}
+  .cond li svg{flex:0 0 auto;margin-top:3px}
+  .bn-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+  @media (max-width:820px){.bn-grid{grid-template-columns:1fr;gap:28px}}
+
+  /* ============ ФУТЕР ============ */
+  footer{background:var(--olive-800);color:var(--paper-dim);padding-block:48px 30px;border-top:1px solid rgba(237,231,214,.1)}
+  .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:32px;margin-bottom:34px}
+  footer h4{font-family:var(--serif);color:var(--paper);font-size:19px;margin:0 0 12px}
+  footer .brand{color:var(--paper);margin-bottom:14px}
+  footer a{display:block;padding:4px 0;font-size:14.5px}
+  footer a:hover{color:var(--gold-soft)}
+  .reg{font-size:12.5px;color:rgba(237,231,214,.55);border-top:1px solid rgba(237,231,214,.1);padding-top:18px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+  @media (max-width:720px){.foot-grid{grid-template-columns:1fr 1fr}}
+
+  /* фото-заглушки (природные градиенты вместо чужих фото) */
+  .ph-forest{background:linear-gradient(160deg,#3a4a2c,#26331d 60%,#1c2716)}
+  .ph-pool{background:linear-gradient(160deg,#2e5a6b,#1f4250 70%,#16303a)}
+  .ph-cabin{background:linear-gradient(155deg,#4a3d2a,#332a1c 65%,#241d13)}
+  .ph-sauna{background:linear-gradient(160deg,#5a3a28,#3d281a 70%,#2a1c12)}
+  .ph-cafe{background:linear-gradient(160deg,#6b5638,#463726 70%,#2e2418)}
+  .ph-lux{background:linear-gradient(155deg,#4a4030,#332c20 65%,#221d15)}
+  .ph-std{background:linear-gradient(155deg,#3f4a34,#2c3324 65%,#1f2419)}
+  .ph-kids{background:linear-gradient(160deg,#7a8b5c,#566040 70%,#3c4530)}
+  .ph-r1{background:linear-gradient(150deg,#3a4a2c,#243019)}
+  .ph-r2{background:linear-gradient(150deg,#4a3d2a,#2e2618)}
+  .ph-r3{background:linear-gradient(150deg,#2e5a6b,#1c3944)}
+  .ph-tex{position:relative}
+  .ph-tex::after{content:"";position:absolute;inset:0;background:
+    radial-gradient(120% 80% at 20% 0%,rgba(255,255,255,.09),transparent 55%),
+    radial-gradient(100% 60% at 80% 100%,rgba(0,0,0,.28),transparent 60%)}
+  .ph-ico{position:absolute;left:16px;bottom:14px;z-index:1;color:rgba(237,231,214,.9);font-size:13px;font-weight:700;letter-spacing:.04em;display:flex;align-items:center;gap:7px}
+</style>
+</head>
+<body>
+
+<!-- ШАПКА -->
+<header class="nav">
+  <div class="nav-in">
+    <a class="brand" href="#">
+      <svg class="mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+        <path d="M20 4 L34 34 H6 Z" fill="#c9a24b" opacity=".9"/>
+        <path d="M20 15 L28 34 H12 Z" fill="#2c3323"/>
+        <path d="M6 34 Q20 26 34 34" stroke="#7a8b5c" stroke-width="2" fill="none"/>
+      </svg>
+      Горный&nbsp;Источник
+    </a>
+    <nav class="nav-links">
+      <a href="#rooms">Номера и домики</a>
+      <a href="#area">Территория</a>
+      <a href="#reviews">Отзывы</a>
+      <a href="#book">Условия брони</a>
+    </nav>
+    <div class="nav-cta">
+      <a class="btn btn-wa" href="#" aria-label="Написать в WhatsApp">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1 0 12 2Zm5.6 14.2c-.2.6-1.2 1.2-1.7 1.2-.4 0-1 .2-3.3-.7-2.8-1.1-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.8s.7-2 .9-2.2c.2-.3.5-.3.6-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2 0 .4-.1.5l-.4.5c-.1.2-.3.3-.1.6.1.3.7 1.1 1.5 1.8 1 .9 1.8 1.1 2.1 1.3.2.1.4 0 .5-.1l.7-.8c.2-.2.4-.2.6-.1l1.9.9c.2.1.4.2.4.3.1.2.1.8-.1 1.1Z"/></svg>
+        WhatsApp
+      </a>
+      <a class="btn btn-ghost" href="tel:+79609682285">+7 960 968-2285</a>
+      <a class="btn btn-gold" href="#book">Забронировать</a>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <canvas id="mountains" aria-hidden="true"></canvas>
+  <div class="hero-grad"></div>
+  <div class="hero-in">
+    <span class="eyebrow">База отдыха · Чемал, Горный Алтай</span>
+    <h1 class="pull">
+      <span class="pull-line">
+        <span style="animation-delay:.05s">Тишина</span>
+        <span style="animation-delay:.15s">гор</span>
+      </span>
+      <span class="pull-line">
+        <span class="it" style="animation-delay:.30s">начинается</span>
+        <span class="it" style="animation-delay:.42s">здесь</span>
+      </span>
+    </h1>
+    <p class="hero-sub">Номера в отеле и отдельные домики у реки. Тёплый бассейн под открытым небом, сауна, кафе, в самом сердце Чемальского района.</p>
+
+    <div class="hero-facts">
+      <div class="fact">
+        <span class="n">от 5500&nbsp;₽</span>
+        <span class="l">за сутки, дети до 12 лет бесплатно</span>
+      </div>
+      <div class="fact">
+        <span class="stars">★★★★☆</span>
+        <span class="l"><span class="live-dot"><i></i></span> <b style="color:#d8b869">4.3</b> · 127 отзывов на 2ГИС</span>
+      </div>
+      <div class="fact">
+        <span class="n">40</span>
+        <span class="l">мест на охраняемой парковке</span>
+      </div>
+    </div>
+
+    <div class="booking" role="group" aria-label="Проверить свободные даты">
+      <div class="bk-field">
+        <label>Заезд</label>
+        <span class="val">15 июля</span>
+      </div>
+      <div class="bk-field">
+        <label>Отъезд</label>
+        <span class="val">18 июля</span>
+      </div>
+      <div class="bk-field">
+        <label>Гостей</label>
+        <span class="val">2 гостя</span>
+      </div>
+      <button class="btn btn-gold" type="button">Найти номер</button>
+    </div>
+  </div>
+</section>
+
+<!-- ЛЕНТА ДОВЕРИЯ -->
+<div class="trustbar">
+  <div class="wrap">
+    <span class="ti"><span class="dot">●</span> В реестре туробъектов <b>Росаккредитации</b></span>
+    <span class="ti"><span class="dot">●</span> <b>4.3★</b> на 2ГИС · <b>10/10</b> на Яндекс.Путешествиях</span>
+    <span class="ti"><span class="dot">●</span> Онлайн-бронирование <b>за 2 минуты</b></span>
+    <span class="ti"><span class="dot">●</span> Бассейн с подогревом круглый год</span>
+  </div>
+</div>
+
+<!-- ТЕРРИТОРИЯ: фото+текст -->
+<section class="blk" id="area">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Территория усадьбы</span>
+      <h2>Всё для отдыха в одном месте, у подножия гор</h2>
+      <p>Не нужно никуда ехать за впечатлениями. Бассейн, сауна, кафе и площадки для детей, всё на охраняемой территории базы.</p>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:26px">
+      <div class="split">
+        <div class="media ph-pool ph-tex"><span class="ph-ico">🏊 Тёплый бассейн под открытым небом</span></div>
+        <div class="copy">
+          <span class="eyebrow">Бассейн и сауна</span>
+          <h3>Бассейн с подогревом и сауна с выходом к воде</h3>
+          <p>Открытый бассейн работает даже когда на улице прохладно, вода подогревается. Рядом сауна с собственным бассейном: погреться после прогулки по горам.</p>
+          <div class="feat-list">
+            <span class="chip">Подогрев воды</span>
+            <span class="chip">Сауна с бассейном</span>
+            <span class="chip">Шезлонги</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="split rev">
+        <div class="copy">
+          <span class="eyebrow">Кафе и барбекю</span>
+          <h3>Кафе с европейской кухней и беседки для барбекю</h3>
+          <p>Завтрак с видом на горы, ужин в кафе или свой шашлык в беседке, как захочется. Продукты и мангал на месте, готовить самим необязательно.</p>
+          <div class="feat-list">
+            <span class="chip">Европейская кухня</span>
+            <span class="chip">Беседки для мангала</span>
+            <span class="chip">Wi-Fi на территории</span>
+          </div>
+        </div>
+        <div class="media ph-cafe ph-tex"><span class="ph-ico">🍲 Кафе · беседки для барбекю</span></div>
+      </div>
+
+      <div class="split">
+        <div class="media ph-kids ph-tex"><span class="ph-ico">🧸 Детская площадка · парковка на 40 машин</span></div>
+        <div class="copy">
+          <span class="eyebrow">С семьёй и на машине</span>
+          <h3>Детская площадка и парковка на 40 мест</h3>
+          <p>Дети до 12 лет живут бесплатно, для них своя площадка. Приехали на машине, есть где оставить, территория охраняется.</p>
+          <div class="feat-list">
+            <span class="chip">Дети до 12 бесплатно</span>
+            <span class="chip">Охраняемая парковка</span>
+            <span class="chip">Детская площадка</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- КАРТОЧКИ РАЗМЕЩЕНИЯ -->
+<section class="blk rooms" id="rooms">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Где остановиться</span>
+      <h2>Номера в отеле и отдельные домики</h2>
+      <p>Пять категорий на любой формат поездки: от бюджетного стандарта до люкса и приватного домика у леса. Цена указана за сутки, в низкий сезон.</p>
+    </div>
+
+    <div class="toggle" role="group" aria-label="Тип размещения">
+      <button class="on" type="button">Всё размещение</button>
+      <button type="button">Номера в отеле</button>
+      <button type="button">Отдельные домики</button>
+    </div>
+
+    <div class="card-grid">
+      <article class="rcard">
+        <div class="rmedia ph-std ph-tex"><span class="badge">Отель</span></div>
+        <div class="rbody">
+          <h3>Стандарт 3</h3>
+          <div class="rmeta"><span>👥 до 3 гостей</span><span>🛏 отдельные кровати</span></div>
+          <div class="rprice"><span class="p">5500&nbsp;₽<small> / сутки</small></span><span class="go">Выбрать даты →</span></div>
+        </div>
+      </article>
+
+      <article class="rcard">
+        <div class="rmedia ph-std ph-tex"><span class="badge">Отель</span></div>
+        <div class="rbody">
+          <h3>Стандарт 4</h3>
+          <div class="rmeta"><span>👥 до 4 гостей</span><span>🛏 семейный</span></div>
+          <div class="rprice"><span class="p">6500&nbsp;₽<small> / сутки</small></span><span class="go">Выбрать даты →</span></div>
+        </div>
+      </article>
+
+      <article class="rcard">
+        <div class="rmedia ph-lux ph-tex"><span class="badge">Отель · Люкс</span></div>
+        <div class="rbody">
+          <h3>Люкс 4</h3>
+          <div class="rmeta"><span>👥 до 4 гостей</span><span>✨ повышенный комфорт</span></div>
+          <div class="rprice"><span class="p">от 7500&nbsp;₽<small> / сутки</small></span><span class="go">Выбрать даты →</span></div>
+        </div>
+      </article>
+
+      <article class="rcard">
+        <div class="rmedia ph-cabin ph-tex"><span class="badge">Отдельный домик</span></div>
+        <div class="rbody">
+          <h3>Домик «Стандарт Б1»</h3>
+          <div class="rmeta"><span>👥 до 4 гостей</span><span>🌲 приватный вход</span></div>
+          <div class="rprice"><span class="p">от 7000&nbsp;₽<small> / сутки</small></span><span class="go">Выбрать даты →</span></div>
+        </div>
+      </article>
+
+      <article class="rcard">
+        <div class="rmedia ph-cabin ph-tex"><span class="badge">Отдельный домик</span></div>
+        <div class="rbody">
+          <h3>Домик «Стандарт Б2»</h3>
+          <div class="rmeta"><span>👥 до 4 гостей</span><span>🌲 у леса</span></div>
+          <div class="rprice"><span class="p">от 8000&nbsp;₽<small> / сутки</small></span><span class="go">Выбрать даты →</span></div>
+        </div>
+      </article>
+
+      <article class="rcard" style="justify-content:center;align-items:center;text-align:center;background:transparent;border-style:dashed">
+        <div class="rbody" style="justify-content:center;gap:14px">
+          <h3 style="color:var(--gold-soft)">Доп. место 1500&nbsp;₽</h3>
+          <p style="color:var(--paper-dim);font-size:14.5px;margin:0">за человека в сутки.<br>Дети до 12 лет бесплатно.</p>
+          <a class="btn btn-ghost" href="#book" style="margin-inline:auto">Все цены по сезонам</a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ОТЗЫВЫ -->
+<section class="blk reviews" id="reviews">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Что говорят гости</span>
+      <h2>4.3 из 5 по 127 отзывам на 2ГИС</h2>
+    </div>
+    <div class="polaroids">
+      <figure class="pol" style="--rot:-3deg">
+        <div class="ph ph-r1"></div>
+        <div class="stars">★★★★★</div>
+        <p class="txt">«Бассейн тёплый даже вечером, дети в восторге от площадки. Тихо, горы прямо перед домиком.»</p>
+        <figcaption class="who">Семья из Новосибирска · 2ГИС</figcaption>
+      </figure>
+      <figure class="pol" style="--rot:2deg">
+        <div class="ph ph-r2"></div>
+        <div class="stars">★★★★★</div>
+        <p class="txt">«Забронировали онлайн за пару минут, приехали, всё как на сайте. Кафе порадовало, кухня домашняя.»</p>
+        <figcaption class="who">Гость · Яндекс.Путешествия</figcaption>
+      </figure>
+      <figure class="pol" style="--rot:-1.5deg">
+        <div class="ph ph-r3"></div>
+        <div class="stars">★★★★☆</div>
+        <p class="txt">«Отличное место, чтобы выдохнуть. Сауна, беседка для шашлыка, парковка рядом. Вернёмся ещё.»</p>
+        <figcaption class="who">Пара · Чемал</figcaption>
+      </figure>
+    </div>
+    <p class="rev-src">Живые отзывы подтягиваются с <b>2ГИС</b> и <b>Яндекс.Путешествий</b> прямо на сайт, рейтинг всегда актуальный.</p>
+  </div>
+</section>
+
+<!-- УСЛОВИЯ БРОНИ + CTA -->
+<section class="blk booknow" id="book">
+  <div class="wrap">
+    <div class="bn-grid">
+      <div>
+        <span class="eyebrow">Бронирование онлайн</span>
+        <h2>Забронируйте на нужные даты, без звонков и предоплаты вслепую</h2>
+        <p>Выбираете даты, видите свободные номера и цену сразу. Всё прозрачно ещё до оплаты. Вот условия.</p>
+        <div class="bn-cta">
+          <a class="btn btn-gold" href="#">Проверить свободные даты</a>
+          <a class="btn btn-wa" href="#">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1 0 12 2Zm5.6 14.2c-.2.6-1.2 1.2-1.7 1.2-.4 0-1 .2-3.3-.7-2.8-1.1-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.8s.7-2 .9-2.2c.2-.3.5-.3.6-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2 0 .4-.1.5l-.4.5c-.1.2-.3.3-.1.6.1.3.7 1.1 1.5 1.8 1 .9 1.8 1.1 2.1 1.3.2.1.4 0 .5-.1l.7-.8c.2-.2.4-.2.6-.1l1.9.9c.2.1.4.2.4.3.1.2.1.8-.1 1.1Z"/></svg>
+            Спросить в WhatsApp
+          </a>
+        </div>
+      </div>
+      <div class="cond">
+        <h3>Условия бронирования и возврата</h3>
+        <ul>
+          <li>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a24b" stroke-width="2.4" aria-hidden="true"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Бесплатная отмена при заезде за несколько дней, предоплата возвращается.
+          </li>
+          <li>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a24b" stroke-width="2.4" aria-hidden="true"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Заезд с 14:00, выезд до 12:00. Ранний заезд по договорённости.
+          </li>
+          <li>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a24b" stroke-width="2.4" aria-hidden="true"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Договор публичной оферты и правила проживания открыто на сайте.
+          </li>
+          <li>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a24b" stroke-width="2.4" aria-hidden="true"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Объект в реестре Росаккредитации, запись С042026022862.
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ФУТЕР -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="brand" style="font-size:22px">Горный Источник</div>
+        <p style="max-width:34ch;color:var(--paper-dim);font-size:14.5px;margin:0">База отдыха в Чемальском районе Республики Алтай. с. Элекмонар, ул. Восточная, 48.</p>
+      </div>
+      <div>
+        <h4>Куда пойти</h4>
+        <a href="#rooms">Номера и домики</a>
+        <a href="#area">Территория</a>
+        <a href="#reviews">Отзывы гостей</a>
+        <a href="#book">Условия брони</a>
+      </div>
+      <div>
+        <h4>Связь</h4>
+        <a href="tel:+79609682285">+7 960 968-2285</a>
+        <a href="#">WhatsApp</a>
+        <a href="mailto:gornyiistochnik@yandex.ru">gornyiistochnik@yandex.ru</a>
+        <a href="#">Мы на карте</a>
+      </div>
+    </div>
+    <div class="reg">
+      <span>Реестр туробъектов Росаккредитации · запись С042026022862</span>
+      <span>Концепт-пример новой главной · данные с действующего сайта</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Слоистые горы Алтая на canvas — надёжнее чужого фото, попадает в стиль референса Vysota 890
+  (function(){
+    var c=document.getElementById('mountains');
+    if(!c)return;
+    var ctx=c.getContext('2d');
+    var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+    function draw(){
+      var w=c.clientWidth,h=c.clientHeight,dpr=Math.min(window.devicePixelRatio||1,2);
+      c.width=w*dpr;c.height=h*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);
+      // небо
+      var sky=ctx.createLinearGradient(0,0,0,h);
+      sky.addColorStop(0,'#3c4a30');sky.addColorStop(.5,'#556a3f');sky.addColorStop(1,'#2c3323');
+      ctx.fillStyle=sky;ctx.fillRect(0,0,w,h);
+      // мягкое солнце-дымка
+      var sun=ctx.createRadialGradient(w*0.72,h*0.3,10,w*0.72,h*0.3,h*0.55);
+      sun.addColorStop(0,'rgba(216,184,105,.35)');sun.addColorStop(1,'rgba(216,184,105,0)');
+      ctx.fillStyle=sun;ctx.fillRect(0,0,w,h);
+      // слои гор (дальние светлее/голубее, ближние темнее-зеленее)
+      var layers=[
+        {base:0.52,amp:0.13,col:'#5c6b48',seed:1.3},
+        {base:0.62,amp:0.16,col:'#465538',seed:2.7},
+        {base:0.74,amp:0.20,col:'#333f28',seed:0.6},
+        {base:0.88,amp:0.16,col:'#232c1b',seed:3.9}
+      ];
+      layers.forEach(function(L){
+        ctx.beginPath();ctx.moveTo(0,h);
+        var step=w/26;
+        for(var x=0;x<=w+step;x+=step){
+          var t=x/w;
+          var y=h*(L.base) - h*L.amp*(Math.sin(t*7+L.seed)*0.5+Math.sin(t*17+L.seed*2)*0.28+0.5);
+          ctx.lineTo(x,y);
+        }
+        ctx.lineTo(w,h);ctx.closePath();
+        ctx.fillStyle=L.col;ctx.fill();
+      });
+      // лёгкий туман в долинах
+      var mist=ctx.createLinearGradient(0,h*0.55,0,h*0.8);
+      mist.addColorStop(0,'rgba(237,231,214,0)');mist.addColorStop(1,'rgba(237,231,214,.14)');
+      ctx.fillStyle=mist;ctx.fillRect(0,h*0.55,w,h*0.25);
+    }
+    draw();
+    var t;window.addEventListener('resize',function(){clearTimeout(t);t=setTimeout(draw,120)});
+  })();
+
+  // Демонстрация: переключатели-табы и тип размещения (визуальный отклик для клиента)
+  document.querySelectorAll('.toggle button').forEach(function(b){
+    b.addEventListener('click',function(){
+      var g=b.parentElement;g.querySelectorAll('button').forEach(function(x){x.classList.remove('on')});
+      b.classList.add('on');
+    });
+  });
+
+  // reveal на скролле (идея blur-in/fade-up из eldoraui, реализовано нативно)
+  (function(){
+    var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+    var targets=document.querySelectorAll('.split,.rcard,.pol,.cond,.trustbar .ti');
+    targets.forEach(function(el,i){
+      el.classList.add('reveal');
+      el.style.transitionDelay=(Math.min(i%4,3)*0.07)+'s';
+    });
+    if(reduce||!('IntersectionObserver' in window)){
+      document.querySelectorAll('.reveal').forEach(function(el){el.classList.add('in')});
+      return;
+    }
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}});
+    },{threshold:0.12,rootMargin:'0px 0px -8% 0px'});
+    document.querySelectorAll('.reveal').forEach(function(el){io.observe(el)});
+  })();
+</script>
+</body>
+</html>
