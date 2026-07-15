@@ -106,11 +106,39 @@
   .btn-ghost:hover{border-color:var(--gold);color:var(--gold-soft)}
   .btn-wa{background:#25995a;color:#fff}
   .btn-wa:hover{background:#2bab66;transform:translateY(-1px)}
-  @media (max-width:860px){.nav-links{display:none}}
+
+  /* бургер: скрыт на десктопе, кнопка брони в меню — тоже */
+  .burger{display:none;margin-left:auto;flex:0 0 auto;width:44px;height:44px;
+    background:transparent;border:0;cursor:pointer;padding:10px;border-radius:10px}
+  .burger span{display:block;height:2px;width:100%;background:var(--paper);border-radius:2px;
+    transition:transform .25s ease,opacity .2s ease}
+  .burger span+span{margin-top:5px}
+  .burger[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .burger[aria-expanded="true"] span:nth-child(2){opacity:0}
+  .burger[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+  .nav-book-mob{display:none}
+
+  @media (max-width:860px){
+    .burger{display:block}
+    .nav-cta{display:none}                 /* десктопную кнопку прячем */
+    .nav-links{
+      position:absolute;left:0;right:0;top:100%;
+      flex-direction:column;align-items:stretch;gap:0;margin:0;
+      background:var(--olive-800);border-bottom:1px solid rgba(237,231,214,.14);
+      padding:8px 16px 18px;
+      max-height:0;overflow:hidden;opacity:0;pointer-events:none;
+      transition:max-height .3s ease,opacity .2s ease;
+    }
+    header.nav{position:sticky}          /* якорь для абсолютного меню */
+    .nav-in{position:relative}
+    .nav-links.open{max-height:80vh;opacity:1;pointer-events:auto}
+    .nav-links a{padding:14px 6px;font-size:16px;border-bottom:1px solid rgba(237,231,214,.08)}
+    .nav-links a:last-child{border-bottom:0}
+    .nav-book-mob{display:inline-flex;justify-content:center;margin-top:14px;padding:13px 22px;font-size:15px}
+  }
   @media (max-width:560px){
     .nav-in{gap:12px}
     .brand{font-size:18px}.brand .mark{width:24px;height:24px}
-    .nav-cta .btn-gold{padding:9px 16px;font-size:13.5px}
   }
 
   /* ============ HERO ============ */
@@ -323,15 +351,19 @@
       <img class="mark" src="img/logo.png" alt="Логотип базы отдыха «Горный Источник»" width="34" height="34">
       Горный&nbsp;Источник
     </a>
-    <nav class="nav-links">
+    <nav class="nav-links" id="nav-menu">
       <a href="#rooms">Номера и домики</a>
       <a href="#area">Территория</a>
       <a href="#reviews">Отзывы</a>
       <a href="#book">Условия брони</a>
+      <a class="btn btn-gold nav-book-mob" href="#book">Забронировать</a>
     </nav>
     <div class="nav-cta">
-      <a class="btn btn-gold" href="#book">Забронировать</a>
+      <a class="btn btn-gold nav-book-desk" href="#book">Забронировать</a>
     </div>
+    <button class="burger" id="burger" aria-label="Открыть меню" aria-expanded="false" aria-controls="nav-menu">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </header>
 
@@ -674,6 +706,21 @@
 </footer>
 
 <script>
+  // Бургер-меню (мобилка)
+  (function(){
+    var burger=document.getElementById('burger');
+    var menu=document.getElementById('nav-menu');
+    if(!burger||!menu) return;
+    function close(){menu.classList.remove('open');burger.setAttribute('aria-expanded','false');burger.setAttribute('aria-label','Открыть меню');}
+    burger.addEventListener('click',function(){
+      var open=menu.classList.toggle('open');
+      burger.setAttribute('aria-expanded',open?'true':'false');
+      burger.setAttribute('aria-label',open?'Закрыть меню':'Открыть меню');
+    });
+    // клик по любому пункту/кнопке меню — закрываем
+    menu.querySelectorAll('a').forEach(function(a){a.addEventListener('click',close);});
+  })();
+
   // Фильтр витрины: Всё размещение / Номера в отеле / Отдельные домики
   (function(){
     var toggle=document.querySelector('.rooms .toggle');
