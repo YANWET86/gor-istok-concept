@@ -19,6 +19,7 @@
     --wine-soft:#5e3049;
     --gold:#c9a24b;        /* единственный акцент */
     --gold-soft:#d8b869;
+    --gold-bright:#f0c651;  /* яркий золотой для текста на тёмном фоне (hero) */
     --moss:#7a8b5c;        /* вторичная зелень */
     --ink:#20261a;         /* текст на пергаменте */
     --ink-soft:#4b543c;
@@ -125,13 +126,13 @@
   }
   .hero h1{font-size:clamp(44px,6.4vw,84px);line-height:1.0;margin:.14em 0 .2em;max-width:16ch}
   .hero h1 .pull-line{display:block}
-  .hero h1 .it{font-style:italic;color:var(--gold-soft)}
+  .hero h1 .it{font-style:italic;color:var(--gold-bright)}
   .hero-sub{font-size:clamp(17px,2.4vw,21px);color:var(--paper-dim);max-width:46ch;margin-bottom:26px}
   .hero-facts{display:flex;flex-wrap:wrap;gap:14px 30px;align-items:center;margin-bottom:34px}
   .fact{display:flex;align-items:baseline;gap:9px}
-  .fact .n{font-family:var(--serif);font-size:34px;font-weight:600;color:var(--gold-soft);line-height:1}
+  .fact .n{font-family:var(--serif);font-size:34px;font-weight:600;color:var(--gold-bright);line-height:1}
   .fact .l{font-size:14px;color:var(--paper-dim);max-width:16ch;line-height:1.25}
-  .stars{color:var(--gold);letter-spacing:2px;font-size:18px}
+  .stars{color:var(--gold-bright);letter-spacing:2px;font-size:18px}
 
   /* live-плашка рейтинга с пульсирующей точкой (идея: animated-badge) */
   .live-dot{position:relative;display:inline-flex;width:9px;height:9px;margin-right:2px;vertical-align:middle}
@@ -359,7 +360,7 @@
       </div>
       <div class="fact">
         <span class="stars">★★★★☆</span>
-        <span class="l"><span class="live-dot"><i></i></span> <b style="color:#d8b869">4.3</b> · 127 отзывов на 2ГИС</span>
+        <span class="l"><span class="live-dot"><i></i></span> <b style="color:var(--gold-bright)">4.3</b> · 127 отзывов на 2ГИС</span>
       </div>
       <div class="fact">
         <span class="n">40</span>
