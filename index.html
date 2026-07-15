@@ -675,7 +675,7 @@
     syncMin();
     inEl.addEventListener('change',syncMin);
 
-    var guests=2, MIN=1, MAX=10;
+    var guests=2, MIN=1, MAX=6; // макс. вместимость крупнейшего объекта: домики «Семейный» и «Люкс-плюс» = 4 осн. + 2 доп.
     function plural(n){var a=Math.abs(n)%100,b=n%10;
       if(a>10&&a<20)return 'гостей'; if(b>1&&b<5)return 'гостя'; if(b===1)return 'гость'; return 'гостей';}
     function paintGuests(){numEl.textContent=guests; minus.disabled=guests<=MIN; plus.disabled=guests>=MAX;}
